@@ -1,4 +1,5 @@
 package com.example.leaderboard.services;
+
 import com.example.leaderboard.entities.Leaderboard;
 import com.example.leaderboard.repositories.LeaderboardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +22,17 @@ public class LeaderboardService {
 
     @Transactional
     public void insertLeaderboard(Leaderboard leaderboardData) {
-        entityManager.createNativeQuery("INSERT INTO leaderboard_entries (id, game_name, game_score, player_username, team_size) VALUES (?,?,?,?,?)")
-                .setParameter(1, leaderboardData.getId())
-                .setParameter(2, leaderboardData.getGameName())
-                .setParameter(3, leaderboardData.getGameScore())
-                .setParameter(4, leaderboardData.getPlayerUsername())
-                .setParameter(5, leaderboardData.getTeamSize())
+        entityManager.createNativeQuery(
+                "INSERT INTO leaderboard_entries (game_name, game_score, player_username, team_size) VALUES (?,?,?,?)")
+                .setParameter(1, leaderboardData.getGameName())
+                .setParameter(2, leaderboardData.getGameScore())
+                .setParameter(3, leaderboardData.getPlayerUsername())
+                .setParameter(4, leaderboardData.getTeamSize())
                 .executeUpdate();
     }
 
-    public LeaderboardService() {}
+    public LeaderboardService() {
+    }
 
     public List<Leaderboard> getLeaderboard() {
         return leaderboardRepository.findAll();
